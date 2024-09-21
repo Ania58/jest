@@ -34,15 +34,26 @@ const getProducts = () => {
 }
 
 const getProduct = (idToFind) => {
+    const productIndex = products.findIndex(product => product.id !== idToFind);
+    if (productIndex === -1) {
+        throw new Error('this product does not exist');
+    }
     return products.find(product => product.id === idToFind);
 }
 
 const updateProduct = (idToUpdate, newName, newPrice) => {
-    const product = products.find(product => product.id === idToUpdate);
-    if (product) {
-        product.name = newName;
-        product.price = newPrice;
+    if (!newName || !newPrice) {
+        throw new Error('name and price must be defined');
+    };
+
+    const productIndex = products.findIndex(product => product.id === idToUpdate);
+    if (productIndex === -1) {
+        throw new Error('this product does not exist');
     }
+
+
+    products[productIndex].name = newName;
+    products[productIndex].price = newPrice;
 }
 
 module.exports = { resetProducts,  addProduct, removeProduct, getProducts, getProduct, updateProduct}
